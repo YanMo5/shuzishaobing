@@ -1,0 +1,10 @@
+任务: {{query_summary}}
+主体别名: {{subject_alias}}
+去标识化画像: {{profile_summary}}
+最新观测: {{observation_summary}}
+风险摘要: {{risk_summary}}
+最新信号: {{signal_summary}}
+检索到的知识片段:
+{{retrieval_block}}
+知识摘要: {{retrieval_summary}}
+输出要求: {{output_schema}}
