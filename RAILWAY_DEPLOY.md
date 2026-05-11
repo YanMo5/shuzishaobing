@@ -19,10 +19,12 @@
 2. **选择部署来源**
    - 选择 "Deploy from GitHub"
    - 授权 GitHub 并选择 `YanMo5/shuzishaobing` 仓库
+   - 该仓库根目录现在已经提供 `Dockerfile`，Railway 可直接构建后端服务
 
 3. **Railway 自动检测配置**
-   - Railway 将识别 `docker-compose.yml`
-   - 自动创建后端和前端服务，以及 PostgreSQL 数据库
+   - Railway 将识别仓库根目录的 `Dockerfile`
+   - 当前这会部署后端服务
+   - 前端建议作为第二个 Railway 服务，或继续部署到 Vercel
 
 4. **配置环境变量**
    
@@ -52,8 +54,12 @@
    - 获得生成的公开 URL
 
 6. **访问应用**
-   - Frontend URL: `https://[railway-frontend-url]`
-   - Backend API: `https://[railway-backend-url]:8080`
+   - Backend API: `https://[railway-service-url]`
+   - 如果前端独立部署，可把前端的 `VITE_API_BASE_URL` 指向这个后端地址
+
+### 方式一补充：如果你想部署前端
+
+Railway 里再新建一个服务，单独指向 `frontend` 目录并使用前端构建流程；更常见的做法是把前端部署到 Vercel，把后端保留在 Railway。
 
 ### 方式二：使用 Railway CLI（适合开发者）
 
@@ -101,7 +107,16 @@
   .gitignore
   ```
 
-### Q2: 前端无法连接后端
+### Q2: Railway 提示找不到 Dockerfile
+
+**原因：** 仓库根目录没有 Dockerfile，或 Railway 的 Root Directory 指向了错误目录。
+
+**解决方案：**
+1. 确认 Railway 的 Root Directory 留空，或让它指向仓库根目录
+2. 使用仓库根目录下的 `Dockerfile` 构建后端服务
+3. 不要在 Railway 中使用 `docker-compose up -d`
+
+### Q3: 前端无法连接后端
 
 **原因：** CORS 或 API 基础 URL 错误
 
@@ -125,7 +140,7 @@
    }
    ```
 
-### Q3: 数据库连接失败
+### Q4: 数据库连接失败
 
 **原因：** PostgreSQL 密码或 URL 不匹配
 
@@ -134,7 +149,7 @@
 2. 复制连接字符串
 3. 更新所有后端服务的 `SPRING_DATASOURCE_URL` 和密码
 
-### Q4: 如何查看部署日志？
+### Q5: 如何查看部署日志？
 
 **方法：**
 - 在 Railway 仪表板点击相应服务
