@@ -4,8 +4,6 @@
     "builder": "DOCKERFILE"
   },
   "deploy": {
-    "startCommand": "docker-compose up -d",
-    "restartPolicyMaxRetries": 10,
-    "restartPolicyWindow": 600
+    "restartPolicyMaxRetries": 10
   }
 }
