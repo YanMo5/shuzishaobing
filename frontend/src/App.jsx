@@ -105,11 +105,14 @@ async function apiFetch(token, path, options = {}) {
     ...(options.headers || {})
   };
 
+  const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
+  const requestPath = apiBaseUrl ? `${apiBaseUrl}${path}` : path;
+
   if (token) {
     headers['X-Api-Token'] = token;
   }
 
-  const response = await fetch(path, {
+  const response = await fetch(requestPath, {
     ...options,
     headers
   });
